@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const posts = await getCollection('blog');
+// Sort by date descending
+posts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+---
+
+<BaseLayout title="Latest Posts">
+  <section>
+    <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 mb-8">Latest Articles</h2>
+    
+    {posts.length === 0 ? (
+      <p class="text-gray-500">No posts found.</p>
+    ) : (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {posts.map((post) => (
+          <article class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-2">
+                <a href={`/blog/${post.data.slug}`} class="text-blue-600 hover:text-blue-800" set:html={post.data.title}></a>
+              </h3>
+              <time datetime={post.data.date} class="text-sm text-gray-500 block mb-4">
+                {new Date(post.data.date).toLocaleDateString()}
+              </time>
+              <a href={`/blog/${post.data.slug}`} class="inline-block font-medium text-blue-600 hover:text-blue-500">
+                Read more &rarr;
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    )}
+  </section>
+</BaseLayout>

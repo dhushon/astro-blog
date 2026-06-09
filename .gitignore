@@ -1,0 +1,14 @@
+# tool outputs and temporary files
+.gemini/
+dist/
+.astro/
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.DS_Store
+.env
+.env.production
+.env.local
+.env.development
